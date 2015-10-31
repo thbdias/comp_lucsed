@@ -1,0 +1,48 @@
+Use Case – StudentEnrollment.
+Brief Description
+This use case describes how students perform their enrollment.
+System: System.
+Primary and Secondary Actors
+Primary Actors: Student.
+Secondary Actors: Academic Secretary.
+Main Flow – MakeEnrollment.
+Student starts Use Case.
+Student types the attributes (EnrollmentNumber) of "Student" on “MainForm”.
+System validates the information of "Student".
+System retrieves the atributes (name, nationality, social security number, zip code, sex) of "Student".
+Student selects "MakeEnrollment" on "Main Form".
+Student searches the attibutes (course, period, shift, group) of "Discipline".
+System displays the attibutes of "Discipline" on "Main Form".
+System enables "ConfirmEnrollment" on "Main Form".
+System requests "Confirmation" of "Enrollment".
+Student selects "ConfirmEnrollment" on "Main Form".
+System validates the attibutes of "Enrollment".
+System return "//Enrollment Confirmed" to Student.
+System generates the request of "Enrollment".
+System sends os atributos (date, id number by) of "Enrollment" by e-mail.
+System sends “//the request” to Academic Secretary.
+Student finishes Use Case.
+Alternative Flows
+Alternative Flow 01 – ValidateEnrollmentNumber.
+System displays "//The enrollment number does not exist" to Student.
+Alternative Flow 02 – CheckEnrollmentEffected.
+System displays "//You are already enrolled" to Student.
+Alternative Flow 03 – CheckDependenciesFromPreviousSemesters
+System shows the dependencies of "Student" on "MainForm".
+System enables "EnrollDependency" on "MainForm".
+System enables "ConfirmEnrollment" on "MainForm".
+System requests "Confirmation" of "Enrollment".
+Student selects "ConfirmEnrollment" on "Main Form".
+System validates the information of "Enrollment".
+System displays "//Enrollment of Dependency Confirmed" to Student.
+Key Scenarios
+Key Scenario 01 – MakeEnrollment.
+Key Scenario 02 - CheckDependenciesFromPreviousSemesters.
+Pre Conditions
+There is an active network connection to the student enrollment database.
+Post Conditions
+There are no post conditions associated with this use case.
+Special Requirements
+There are no special requirements associated with this use case.
+Extension Points
+There are no extension points associated with this use case.
