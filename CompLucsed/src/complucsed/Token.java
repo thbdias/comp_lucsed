@@ -12,7 +12,7 @@ public class Token {
     /** construtor */
     public Token (){
         lexema = "";
-        token = -1;
+        idToken = -1;
     }//end construtor
     
     
