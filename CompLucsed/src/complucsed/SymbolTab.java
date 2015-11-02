@@ -14,6 +14,7 @@ import java.util.Set;
 
 public class SymbolTab {
     
+    private static byte idprox = 1; //proximo simbolo a ser inserido na tabela
     public static Hashtable symbolTab;        
             
     public static final byte USE = 1;
@@ -52,7 +53,7 @@ public class SymbolTab {
     public static final byte FINISHES = 34;  
     public static final byte POINT = 35;
     public static final byte COMMA = 36;
-    //public static final byte HYPHEN = 3;
+    public static final byte HYPHEN = 37;
     //public static final byte COLON = 5;//DOIS PONTOS        
     //public static final byte QUOTMARKS = 14; //ASPAS
     //public static final byte SEMICOLON = 21;//PONTO E VIRGULA
@@ -72,7 +73,7 @@ public class SymbolTab {
 //                 LEXEMA, TOKEN
         insertSimb("use", USE);
         insertSimb("case", CASE);
-        //insertSimb("hifen", HYPHEN);
+        insertSimb("hifen", HYPHEN);
         insertSimb("system", SYSTEM);
         insertSimb("primary", PRIMARY);
         //insertSimb(":", COLON);
@@ -85,9 +86,9 @@ public class SymbolTab {
         insertSimb("starts", STARTS);
         //insertSimb("\"", QUOTMARKS);
         insertSimb("on", ON);
-        //insertSimb("attributes", ATTRIBUTES);
+        insertSimb("attributes", ATTRIBUTES);
         insertSimb("the", THE);
-        //insertSimb("information", INFORMATION);
+        insertSimb("information", INFORMATION);
         insertSimb("of", OF);
         insertSimb("for", FOR);
         //insertSimb(";", SEMICOLON);
@@ -123,7 +124,16 @@ public class SymbolTab {
         String min; //Variável auxilar para transformar em minuscula
         min = lex.toLowerCase();//transforma em minuscula
         symbolTab.put(min, token + "");
+        idprox++;
     }//end insertSimb
+    
+    
+    /**
+     * metodo que retorna a "posicao" do proximo item da tabela.
+     */
+    public static byte getIdProx(){
+        return idprox;
+    }//end getIdprox
     
     
     /**
@@ -157,13 +167,13 @@ public class SymbolTab {
     
     /** 
      * verifica se a tabela de simbolos contem o lexema
-     *//**
+     */
     public boolean contains(String lex) {
         String min; //Variável auxilar para transformar em minuscula
         min = lex.toLowerCase();//transforma em minuscula
-        return hash.containsKey(min);
+        return symbolTab.containsKey(min);
     }//end contains
-    */
+    
     
     
 }//end class SymbolTab
