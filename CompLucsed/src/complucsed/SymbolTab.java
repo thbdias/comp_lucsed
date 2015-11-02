@@ -138,14 +138,14 @@ public class SymbolTab {
     
     /**
      * retorna o token referente ao lexema
-     *//*
+     */
     public byte getToken(String lex) {
         String min; //Variável auxilar para transformar em minuscula
         min = lex.toLowerCase();//transforma em minuscula
         //System.out.println("" + hash.get(min));
-        return Byte.parseByte("" + hash.get(min));
+        return Byte.parseByte("" + symbolTab.get(min));
     }//end getToken
-    */
+    
     
     /**
      * 
