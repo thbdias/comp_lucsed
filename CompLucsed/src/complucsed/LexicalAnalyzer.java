@@ -28,7 +28,8 @@ public class LexicalAnalyzer {
      */
     public Token getToken (){        
         Token token = new Token ();                     
-        String lexema = obterLexema();        
+        String lexema = obterLexema(); 
+        String buffer = "";
                                                         
         if (isId(lexema)){                  //is identificador?
             token = addOnTable(lexema); 
@@ -37,19 +38,34 @@ public class LexicalAnalyzer {
                 token = addOnTable (lexema); 
              }
         else if (isQuoteMark(lexema.charAt(0))){ //se primeiro char é aspas
-                if (isQuoteMark(lexema.charAt(lexema.length()-1))){ //se ultimo char é aspas                             
-                    String lex = ""; 
+                token = addOnTable (lexema);
+                //if (isQuoteMark(lexema.charAt(lexema.length()-1))){ //se ultimo char é aspas                             
+                  //  String lex = ""; 
                     //copiando string que esta dentro das aspas para lex
-                    for (int i = 1; i < (lexema.length()-1); i++){
-                        lex = lex + lexema.charAt(i);
-                    }//end for
+                    //    for (int i = 1; i < (lexema.length()-1); i++){
+                      //      lex = lex + lexema.charAt(i);
+                       // }//end for
                     
-                    if (isId(lex))
-                        token = addOnTable(lex);                    
-                }//end if
-             }//                
-             else //"deve haver um tratamento de erro aki"
-                System.out.println("deve haver um tratamento de erro aqui");
+                  //  if (isId(lex))
+                    //    token = addOnTable(lex);                                        
+               // }//end if
+             }//  
+        //else if (isLparenthese(lexema.charAt(0))){ //se primeiro char é abre parenteses
+                //buffer = buffer + "(";
+                //String lex = "";
+                //retirando '(' e ',' do lexema
+                  //  for (int i = 1; i < (lexema.length()-1); i++){
+                    //    lex = lex + lexema.charAt(i);
+                    //}//end for
+                //if (isId(lex)){    //se identificador
+                  //  token = addOnTable(lex);  //adiciona id na tabela de simbolos
+                   // if (isComma(lexema.charAt(lexema.length()-1))){  //se virgula
+                    //    token = addOnTable (",");  //adiciona virgula na tabela de simbolo
+                    //}//end if
+               // }//end if
+             //}
+             //else //"deve haver um tratamento de erro aki"
+               // System.out.println("deve haver um tratamento de erro aqui");
         
         return token;
     }// end getToken
@@ -61,14 +77,19 @@ public class LexicalAnalyzer {
      */
     private String obterLexema (){
         String lexema = "";               
+        int controle = 0;
+        int byt = arq.readByte(); 
         
-        int byt = arq.readByte();    
-        
-        while ( (byt != 32) && (byt != 13) && (byt != 10) && (byt != 9) ){ //13 e 10 quebra de linha //32-vazio     
-            lexema = lexema + (char)byt;           
-            byt = arq.readByte();            
+        while ( (byt != 32) && (byt != 13) && (byt != 10) && (controle != 1) ){
+            lexema = lexema + (char)byt;
+            
+            if ((lexema.charAt(0) == '\"') || (lexema.charAt(0) == '\''))
+                controle = 1; //sair do while
+            else
+                byt = arq.readByte();            
         }//end while                                        
         
+        controle = 0;   
         return lexema;
     }//end obterLexema 
     
@@ -143,6 +164,30 @@ public class LexicalAnalyzer {
     private boolean isQuoteMark (char c){               
         return ( (c == '\'') || (c == '\"') );
     }//end isQuoteMark
+    
+    
+    /**
+     * Funcao que verifica se um caracter e abre parenteses
+     */
+    private boolean isLparenthese (char c){
+        return (c == '(');
+    }//end isLbroket
+    
+    
+    /**
+     * Funcao que verifica se um caracter e fecha parenteses
+     */
+    private boolean isRparenthese (char c){
+        return (c == ')');
+    }//end isRparenthese
+    
+    
+    /**
+     * Funcao que verifica se um caracter e virgula
+     */
+    private boolean isComma (char c){
+        return (c == ',');
+    }//end isComma
     
 }//end class LexicalAnalyzer
 
