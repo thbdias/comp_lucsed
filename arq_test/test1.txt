@@ -1,4 +1,4 @@
-Use Case - CRUDStudent.
+Use Case - CRUDStudent.  //irei tirar o traço
 Brief Description
 Allows the inclusion, editing, deleting and searching a student.
 System System.
@@ -10,7 +10,8 @@ Secretary selects "MaintainStudent" on "MainForm".
 Secretary selects "AddStudent" on "MainForm".
 System returns “//input mode screen” to Secretary.
 Loop [required fields empty]
-Secretary enters attributes (id number, name, social security number, status, graduation date) of "Student".
+Secretary enters attributes (id number, name, social security number, status, graduation date) of "Student".  
+								//nao pode conter espaço em branco aki em cima
 System validates attributes of "Student".
 EndLoop
 System searches for "Student".

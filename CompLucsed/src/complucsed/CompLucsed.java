@@ -17,9 +17,9 @@ public class CompLucsed {
         Token token = new Token();
       
         token = lexical.getToken();                        
-        /**System.out.println ("lexema = " + token.getLexema());
+        System.out.println ("lexema = " + token.getLexema());
         System.out.println ("id token = " + token.getIdToken());                
-        
+        /**
         token = lexical.getToken();        
         System.out.println ("\nlexema = " + token.getLexema());
         System.out.println ("id token = " + token.getIdToken());        
