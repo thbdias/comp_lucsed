@@ -54,10 +54,11 @@ public class SymbolTab {
     public static final byte POINT = 35;
     public static final byte COMMA = 36;
     public static final byte HYPHEN = 37;
+    //public static final byte ID = 38;
+    //public static final byte NUMBER = 39;
     //public static final byte COLON = 5;//DOIS PONTOS        
     //public static final byte QUOTMARKS = 14; //ASPAS
-    //public static final byte SEMICOLON = 21;//PONTO E VIRGULA
-    //public static final byte ID = 22;
+    //public static final byte SEMICOLON = 21;//PONTO E VIRGULA    
     //public static final byte FINISHES = 23;
     //public static final byte ATTRIB = 24;
     //public static final byte TEXT = 31;
@@ -114,6 +115,7 @@ public class SymbolTab {
         insertSimb("extension", EXTENSION);
         insertSimb("points", POINTS);
         insertSimb("scenario", SCENARIO);
+        
     }//end initialize
     
     
