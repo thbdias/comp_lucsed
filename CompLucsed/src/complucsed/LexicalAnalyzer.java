@@ -7,7 +7,7 @@ package complucsed;
 public class LexicalAnalyzer {
     
     private static SymbolTab symbolTab;
-    private static Token token;
+    //private static Token token;
     public static Arquivo arq;    
     
     /**
@@ -27,33 +27,20 @@ public class LexicalAnalyzer {
      * @return: Token
      */
     public Token getToken (){        
-        token = new Token ();             
-        byte idprox;  //proximo token a ser inserido na SymbolTab
-        String lexema = obterLexema();
+        Token token = new Token ();                     
+        String lexema = obterLexema();        
         
-        //teste
-        if (isId(lexema)){
-            System.out.println ("id");
-        }else
-            System.out.println ("nao id");
-        
-        
-        
-        
-        
-        if ( !(symbolTab.contains(lexema)) ){   //se tabela nao cotem o lexema, insere-o        
-            idprox = symbolTab.getIdProx();
-            token.setLexema(lexema);
-            token.setIdToken(idprox);
-            symbolTab.insertSimb(lexema, idprox);            
-        }
-        else { //se tabela ja contem o lexema, nada insere na tabela
-            token.setLexema(lexema);
-            token.setIdToken(symbolTab.getToken(lexema));
-        }//end if
+        if (isId(lexema)){                  //is identificador?
+            token = addOnTable(lexema); 
+        }//
+        else if (isNumber(lexema)){         //is number?
+                token = addOnTable (lexema); 
+             }
+             else //"deve haver um tratamento de erro aki"
+                System.out.println("deve haver um tratamento de erro aqui");
         
         return token;
-    }//end getToken
+    }// end getToken
     
     
     /***/
@@ -68,7 +55,31 @@ public class LexicalAnalyzer {
         }//end while                                        
         
         return lexema;
-    }//end obterLexema  
+    }//end obterLexema 
+    
+    
+    /**
+     * metodo que insere "Token" na tabela de simbolos
+     * @param lexema: lexema a ser inserido na tabela de simbolos
+     * @return: retorna o Token que foi inserido na tabela de simbolos
+     */
+    private Token addOnTable (String lexema){
+        Token tok = new Token ();             
+        byte idprox;  //proximo token a ser inserido na SymbolTab
+        
+        if ( !(symbolTab.contains(lexema)) ){   //se tabela nao cotem o lexema, insere-o        
+            idprox = symbolTab.getIdProx();
+            tok.setLexema(lexema);
+            tok.setIdToken(idprox);
+            symbolTab.insertSimb(lexema, idprox);            
+        }
+        else { //se tabela ja contem o lexema, nada insere na tabela
+            tok.setLexema(lexema);
+            tok.setIdToken(symbolTab.getToken(lexema));
+        }//end if
+        
+        return tok;
+    }//end addOnTable
     
     
     /**
