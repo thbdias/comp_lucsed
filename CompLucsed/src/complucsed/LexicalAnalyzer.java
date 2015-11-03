@@ -29,13 +29,25 @@ public class LexicalAnalyzer {
     public Token getToken (){        
         Token token = new Token ();                     
         String lexema = obterLexema();        
-        
+                                                        
         if (isId(lexema)){                  //is identificador?
             token = addOnTable(lexema); 
         }//
         else if (isNumber(lexema)){         //is number?
                 token = addOnTable (lexema); 
              }
+        else if (isQuoteMark(lexema.charAt(0))){ //se primeiro char é aspas
+                if (isQuoteMark(lexema.charAt(lexema.length()-1))){ //se ultimo char é aspas                             
+                    String lex = ""; 
+                    //copiando string que esta dentro das aspas para lex
+                    for (int i = 1; i < (lexema.length()-1); i++){
+                        lex = lex + lexema.charAt(i);
+                    }//end for
+                    
+                    if (isId(lex))
+                        token = addOnTable(lex);                    
+                }//end if
+             }//                
              else //"deve haver um tratamento de erro aki"
                 System.out.println("deve haver um tratamento de erro aqui");
         
@@ -43,7 +55,10 @@ public class LexicalAnalyzer {
     }// end getToken
     
     
-    /***/
+    /**
+     * Metodo que ler proximo lexema 
+     * @return: retorna o lexema
+     */
     private String obterLexema (){
         String lexema = "";               
         
@@ -67,7 +82,7 @@ public class LexicalAnalyzer {
         Token tok = new Token ();             
         byte idprox;  //proximo token a ser inserido na SymbolTab
         
-        if ( !(symbolTab.contains(lexema)) ){   //se tabela nao cotem o lexema, insere-o        
+        if ( !(symbolTab.contains(lexema)) ){   //se tabela nao cotem o lexema, insere-o                    
             idprox = symbolTab.getIdProx();
             tok.setLexema(lexema);
             tok.setIdToken(idprox);
@@ -120,6 +135,14 @@ public class LexicalAnalyzer {
         
         return resp;
     }//end isId
+    
+    
+    /**
+     * Funcao que verifica se um caracter e aspas
+     */
+    private boolean isQuoteMark (char c){               
+        return ( (c == '\'') || (c == '\"') );
+    }//end isQuoteMark
     
 }//end class LexicalAnalyzer
 
