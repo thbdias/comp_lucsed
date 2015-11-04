@@ -1,1 +1,12 @@
-12 12doi t12res "MainForm" 55/123 abc.aa :ab 
+"MainForm" 12 12doi t12res "MainForm" 55/123 abc.aa :ab 
+
+
+lexema: 12
+buffer:  
+stack: 
+
+byt: vazio
+
+
+
+token: 12

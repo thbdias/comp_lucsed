@@ -8,7 +8,9 @@ public class LexicalAnalyzer {
     
     private static SymbolTab symbolTab;
     //private static Token token;
-    public static Arquivo arq;    
+    public static Arquivo arq; 
+    public static String stack;
+    public static String buffer;
     
     /**
      * construtor
@@ -18,6 +20,8 @@ public class LexicalAnalyzer {
         symbolTab = new SymbolTab();
         symbolTab.initialize();
         arq = new Arquivo (nomeArq); //carrega arquivo para memoria        
+        stack = "";
+        buffer = "";
     }//end construtor
     
     
@@ -28,8 +32,7 @@ public class LexicalAnalyzer {
      */
     public Token getToken (){        
         Token token = new Token ();                     
-        String lexema = obterLexema(); 
-        String buffer = "";
+        String lexema = obterLexema();         
                                                         
         if (isId(lexema)){                  //is identificador?
             token = addOnTable(lexema); 
@@ -37,19 +40,14 @@ public class LexicalAnalyzer {
         else if (isNumber(lexema)){         //is number?
                 token = addOnTable (lexema); 
              }
-        else if (isQuoteMark(lexema.charAt(0))){ //se primeiro char é aspas
-                token = addOnTable (lexema);
-                //if (isQuoteMark(lexema.charAt(lexema.length()-1))){ //se ultimo char é aspas                             
-                  //  String lex = ""; 
-                    //copiando string que esta dentro das aspas para lex
-                    //    for (int i = 1; i < (lexema.length()-1); i++){
-                      //      lex = lex + lexema.charAt(i);
-                       // }//end for
-                    
-                  //  if (isId(lex))
-                    //    token = addOnTable(lex);                                        
-               // }//end if
+        else if (isQuoteMark(lexema.charAt(0))){ //is aspas?
+                token = addOnTable (lexema);                
              }//  
+        
+        
+        
+        
+        
         //else if (isLparenthese(lexema.charAt(0))){ //se primeiro char é abre parenteses
                 //buffer = buffer + "(";
                 //String lex = "";
@@ -78,16 +76,35 @@ public class LexicalAnalyzer {
     private String obterLexema (){
         String lexema = "";               
         int controle = 0;
-        int byt = arq.readByte(); 
+        int byt = 0;
         
-        while ( (byt != 32) && (byt != 13) && (byt != 10) && (controle != 1) ){
-            lexema = lexema + (char)byt;
+        if (buffer == ""){
+            byt = arq.readByte(); 
+        
+            while ( (byt != 32) && (byt != 13) && (byt != 10) && (controle != 1) ){ //espaco branco e quebra linha            
             
-            if ((lexema.charAt(0) == '\"') || (lexema.charAt(0) == '\''))
-                controle = 1; //sair do while
-            else
-                byt = arq.readByte();            
-        }//end while                                        
+                if ( isQuoteMark((char)byt) ){
+                    if (stack == ""){
+                        lexema = "\"";
+                        controle = 1; //sair do while
+                        stack = stack + '\"';
+                    }else{  //se stack nao tiver vazio
+                        stack = "";  //esvaziar stack
+                        buffer = "\"";  //guardando proximo token
+                        controle = 1;  //sair do while
+                    }//end if
+                }    
+                else{
+                    lexema = lexema + (char)byt;
+                    byt = arq.readByte();            
+                }
+            }//end while                                        
+        }
+        else {
+            lexema = buffer;
+            buffer = "";
+            byt = arq.readByte(); //lendo espaco em branco
+        }//end if
         
         controle = 0;   
         return lexema;
