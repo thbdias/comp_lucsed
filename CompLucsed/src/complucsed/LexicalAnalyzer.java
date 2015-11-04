@@ -10,7 +10,7 @@ public class LexicalAnalyzer {
     //private static Token token;
     public static Arquivo arq; 
     public static String stack;
-    public static String buffer;
+    public static String buffer;  //memoria auxiliar
     
     /**
      * construtor
@@ -42,7 +42,16 @@ public class LexicalAnalyzer {
              }
         else if (isQuoteMark(lexema.charAt(0))){ //is aspas?
                 token = addOnTable (lexema);                
-             }//  
+             }
+        else if (isSignLess(lexema.charAt(0))){
+                token = addOnTable (lexema);
+             }
+        else if (isText(lexema)){
+                token = addOnTable (lexema);
+            }
+        else if (isSignLarge(lexema.charAt(0))){
+                token = addOnTable (lexema);
+            }
         
         
         
@@ -78,33 +87,54 @@ public class LexicalAnalyzer {
         int controle = 0;
         int byt = 0;
         
-        if (buffer == ""){
-            byt = arq.readByte(); 
+        if (buffer == ""){           //se "memoria" vazia
+            byt = arq.readByte();    //ler proximo caracter
         
             while ( (byt != 32) && (byt != 13) && (byt != 10) && (controle != 1) ){ //espaco branco e quebra linha            
             
-                if ( isQuoteMark((char)byt) ){
-                    if (stack == ""){
+                if ( isQuoteMark((char)byt) ){ //is aspas?
+                    if (stack == ""){  //pilha vazia?
                         lexema = "\"";
-                        controle = 1; //sair do while
+                        controle = 1;   //sair do while
                         stack = stack + '\"';
-                    }else{  //se stack nao tiver vazio
+                    }else{  //se pilha nao tiver vazio
                         stack = "";  //esvaziar stack
                         buffer = "\"";  //guardando proximo token
                         controle = 1;  //sair do while
                     }//end if
-                }    
+                }
+                else if(isSignLess((char)byt)){ //is sinal de menor
+                        if (stack == ""){
+                            lexema = "<";
+                            controle = 1; //sair do while
+                            buffer = "<";
+                        }//end if
+                    }
                 else{
                     lexema = lexema + (char)byt;
-                    byt = arq.readByte();            
+                    byt = arq.readByte();   //ler proximo caracter         
                 }
             }//end while                                        
         }
-        else {
-            lexema = buffer;
-            buffer = "";
-            byt = arq.readByte(); //lendo espaco em branco
-        }//end if
+        else if (buffer == "\""){ //is aspas?
+                lexema = buffer;  //passar buffer para lexema
+                buffer = ""; //esvaziar "memoria"
+                byt = arq.readByte(); //lendo espaco em branco
+            }//end if
+        else if (buffer == "<"){  //is sinal de menor?
+                byt = arq.readByte(); //ler proximo caracter                 
+                while ( !(isSignLarge( (char)byt ) ) ){ //enquanto nao aparece sinal de maior >
+                    lexema = lexema + (char)byt;
+                    byt = arq.readByte(); //ler proximo caracter
+                }//end while            
+                
+                buffer = ">"; //esvaziar "memoria"                
+            }
+        else if (buffer == ">"){ //is sinal de maior?
+                lexema = buffer;  //passar buffer para lexema
+                buffer = "";  //esvaziar "memoria"
+                byt = arq.readByte(); //ler espaco em brando
+            }//end if
         
         controle = 0;   
         return lexema;
@@ -205,6 +235,32 @@ public class LexicalAnalyzer {
     private boolean isComma (char c){
         return (c == ',');
     }//end isComma
+    
+    
+    /**
+     * Funcao que verifica se um caracter tem sinal de menor <
+     */
+    private boolean isSignLess (char c){
+        return (c == '<');
+    }//end isSignLess
+    
+    
+    /**
+     * Funcao que verifica se um caracter tem sinal de maior >
+     */
+    private boolean isSignLarge (char c){
+        return (c == '>');
+    }//end isSignLarge
+    
+    
+    /**
+     * Funcao que verifica se uma string é texto
+     */
+    private boolean isText (String text){                            
+        return true;
+    }//end isText
+    
+    
     
 }//end class LexicalAnalyzer
 
