@@ -1,4 +1,5 @@
-"MainForm" 12 12doi t12res "MainForm" 55/123 abc.aa :ab 
+<Allows the inclusion, editing, deleting and searching a student.> "MainForm" 12 12doi t12res "MainForm" 55/123 abc.aa :ab 
+
 
 
 lexema: 12

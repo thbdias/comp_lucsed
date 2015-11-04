@@ -29,6 +29,11 @@ public class CompLucsed {
         System.out.println ("\nlexema = " + token.getLexema());
         System.out.println ("id token = " + token.getIdToken());                
         */
+        /**
+        token = lexical.getToken();                
+        System.out.println ("\nlexema = " + token.getLexema());
+        System.out.println ("id token = " + token.getIdToken());   
+        */
     }//end main
     
 }//end class CompLucsed
