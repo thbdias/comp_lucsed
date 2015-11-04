@@ -43,36 +43,26 @@ public class LexicalAnalyzer {
         else if (isQuoteMark(lexema.charAt(0))){ //is aspas?
                 token = addOnTable (lexema);                
              }
-        else if (isSignLess(lexema.charAt(0))){
+        else if (isSignLess(lexema.charAt(0))){ //is sinal menor < ?
                 token = addOnTable (lexema);
              }
-        else if (isText(lexema)){
+        else if (isText(lexema)){ //is texto?
                 token = addOnTable (lexema);
             }
-        else if (isSignLarge(lexema.charAt(0))){
+        else if (isSignLarge(lexema.charAt(0))){ //is sinal maior > ?
                 token = addOnTable (lexema);
             }
-        
-        
-        
-        
-        
-        //else if (isLparenthese(lexema.charAt(0))){ //se primeiro char é abre parenteses
-                //buffer = buffer + "(";
-                //String lex = "";
-                //retirando '(' e ',' do lexema
-                  //  for (int i = 1; i < (lexema.length()-1); i++){
-                    //    lex = lex + lexema.charAt(i);
-                    //}//end for
-                //if (isId(lex)){    //se identificador
-                  //  token = addOnTable(lex);  //adiciona id na tabela de simbolos
-                   // if (isComma(lexema.charAt(lexema.length()-1))){  //se virgula
-                    //    token = addOnTable (",");  //adiciona virgula na tabela de simbolo
-                    //}//end if
-               // }//end if
-             //}
-             //else //"deve haver um tratamento de erro aki"
-               // System.out.println("deve haver um tratamento de erro aqui");
+        else if (isLparenthese(lexema.charAt(0))){ //is abre parentese ?
+                token = addOnTable (lexema);
+            }
+        else if (isRparenthese(lexema.charAt(0))){ //is fecha parentese ?
+                token = addOnTable (lexema);
+            }
+        else if (isComma(lexema.charAt(0))){ //is virgula ?
+                token = addOnTable (lexema);
+            }                       
+            //else //"deve haver um tratamento de erro aki"
+              // System.out.println("deve haver um tratamento de erro aqui");
         
         return token;
     }// end getToken
@@ -110,6 +100,13 @@ public class LexicalAnalyzer {
                             buffer = "<";
                         }//end if
                     }
+                else if (isLparenthese((char)byt)){ //is abre parentese?
+                        if (stack == ""){
+                            lexema = "(";
+                            controle = 1; //sair do while
+                            buffer = "(";
+                        }//end if
+                    }
                 else{
                     lexema = lexema + (char)byt;
                     byt = arq.readByte();   //ler proximo caracter         
@@ -128,12 +125,44 @@ public class LexicalAnalyzer {
                     byt = arq.readByte(); //ler proximo caracter
                 }//end while            
                 
-                buffer = ">"; //esvaziar "memoria"                
+                buffer = ">"; 
             }
         else if (buffer == ">"){ //is sinal de maior?
                 lexema = buffer;  //passar buffer para lexema
                 buffer = "";  //esvaziar "memoria"
-                byt = arq.readByte(); //ler espaco em brando
+                byt = arq.readByte(); //ler espaco em branco
+            }//end if
+        else if (buffer == "("){ //is abre parenteses
+                byt = arq.readByte(); //ler proximo caracter
+                int cont = 0; //controle
+                
+                if (stack == ""){ //pilha vazia?
+                    while ( !(isRparenthese((char)byt)) && (cont ==0) ){ //enquanto nao aparece fecha parenteses
+                    
+                        if ((char)byt != ','){                    
+                            lexema = lexema + (char)byt;
+                            byt = arq.readByte(); //ler proximo caracter                       
+                            if ((char)byt == ')'){  //is fecha parenteses?
+                                cont = 1; //sair do while
+                                buffer = ")";
+                            }//end if
+                        }
+                        else {
+                            stack = ",";
+                            cont = 1; //sair do while
+                        }//end if                    
+                       
+                    }//end while
+                }//
+                else if (stack == ","){
+                        lexema = stack;
+                        stack = "";    //esvaziar pilha                     
+                    }//end if                                            
+            }//end if
+        else if (buffer == ")"){ //is fecha parenteses
+                lexema = buffer;  //passar buffer para lexema
+                buffer = "";  //esvaziar buffer
+                byt = arq.readByte(); //ler espaco em branco
             }//end if
         
         controle = 0;   
@@ -258,9 +287,7 @@ public class LexicalAnalyzer {
      */
     private boolean isText (String text){                            
         return true;
-    }//end isText
-    
-    
+    }//end isText       
     
 }//end class LexicalAnalyzer
 
