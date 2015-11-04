@@ -1,13 +1,16 @@
+(idnumber, name, socialsecuritynumber, status, graduationdate) (idnumber) (idnumber, name)
 <Allows the inclusion, editing, deleting and searching a student.> "MainForm" 12 12doi t12res "MainForm" 55/123 abc.aa :ab 
 
 
 
-lexema: 12
-buffer:  
+
+
+lexema: 
+buffer:  )
 stack: 
 
-byt: vazio
+byt: 
 
 
 
-token: 12
+token: name

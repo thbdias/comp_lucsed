@@ -16,24 +16,14 @@ public class CompLucsed {
         LexicalAnalyzer lexical = new LexicalAnalyzer("D:\\compilador\\comp_lucsed\\arq_test\\test4.txt");
         Token token = new Token();
       
-        token = lexical.getToken();                        
-        System.out.println ("lexema = " + token.getLexema());
-        System.out.println ("id token = " + token.getIdToken());                
-        /**
-        token = lexical.getToken();        
-        System.out.println ("\nlexema = " + token.getLexema());
-        System.out.println ("id token = " + token.getIdToken());        
-        */        
-        /**
-        token = lexical.getToken();                
-        System.out.println ("\nlexema = " + token.getLexema());
-        System.out.println ("id token = " + token.getIdToken());                
-        */
-        /**
-        token = lexical.getToken();                
-        System.out.println ("\nlexema = " + token.getLexema());
-        System.out.println ("id token = " + token.getIdToken());   
-        */
+        
+        for (int i = 0; i < 14; i++){
+            token = lexical.getToken();                        
+            System.out.println ("lexema = " + token.getLexema());
+            System.out.println ("id token = " + token.getIdToken() + "\n");
+        }//end for
+        
+        
     }//end main
     
 }//end class CompLucsed
